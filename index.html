@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scientific Calculator</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #dbeafe, #93c5fd);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      max-width: 500px;
+      width: 100%;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 24px;
+      font-size: 2rem;
+      color: #1e3a8a;
+    }
+
+    .input-group {
+      margin-bottom: 16px;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: #1f2937;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+    }
+
+    .button-container {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    button {
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2563eb;
+    }
+
+    .result-container {
+      margin-top: 24px;
+      padding: 16px;
+      border-radius: 8px;
+      background-color: #f3f4f6;
+      color: #111827;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    .error {
+      background-color: #fecaca;
+      color: #b91c1c;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Scientific Calculator</h2>
+    <form method="POST">
+      <div class="input-group">
+        <label for="num1">First Number</label>
+        <input type="text" id="num1" name="num1" required>
+      </div>
+
+      <div class="input-group" id="num2Group">
+        <label for="num2">Second Number</label>
+        <input type="text" id="num2" name="num2">
+      </div>
+
+      <div class="input-group">
+        <label for="operator">Operation</label>
+        <select id="operator" name="operator" required>
+          <optgroup label="Basic">
+            <option value="add">Addition</option>
+            <option value="subtract">Subtraction</option>
+            <option value="multiply">Multiplication</option>
+            <option value="divide">Division</option>
+            <option value="power">Power</option>
+          </optgroup>
+          <optgroup label="Advanced">
+            <option value="sqrt">Square Root</option>
+            <option value="factorial">Factorial</option>
+            <option value="log">Natural Logarithm (ln)</option>
+            <option value="log10">Log base 10</option>
+          </optgroup>
+          <optgroup label="Trigonometric">
+            <option value="sin">Sine</option>
+            <option value="cos">Cosine</option>
+            <option value="tan">Tangent</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label for="precision">Decimal Precision</label>
+        <select id="precision" name="precision">
+          <option value="2">2</option>
+          <option value="4" selected>4</option>
+          <option value="6">6</option>
+          <option value="8">8</option>
+          <option value="10">10</option>
+        </select>
+      </div>
+
+      <div class="button-container">
+        <button type="submit">Calculate</button>
+      </div>
+    </form>
+
+    {% if result is not none %}
+    <div class="result-container">
+      Result: {{ result }}
+    </div>
+    {% endif %}
+
+    {% if error %}
+    <div class="result-container error">
+      Error: {{ error }}
+    </div>
+    {% endif %}
+  </div>
+
+  <script>
+    const operatorSelect = document.getElementById('operator');
+    const num2Group = document.getElementById('num2Group');
+
+    function toggleNum2() {
+      const unaryOps = ['sqrt', 'factorial', 'log', 'log10', 'sin', 'cos', 'tan'];
+      if (unaryOps.includes(operatorSelect.value)) {
+        num2Group.style.display = 'none';
+      } else {
+        num2Group.style.display = 'block';
+      }
+    }
+
+    operatorSelect.addEventListener('change', toggleNum2);
+    window.addEventListener('load', toggleNum2);
+  </script>
+</body>
+</html>
